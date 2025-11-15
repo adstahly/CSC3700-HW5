@@ -8,3 +8,4 @@
 /dataSources.local.xml
 .env
 node_modules/
+vcs.xml

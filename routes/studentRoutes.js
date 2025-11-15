@@ -5,4 +5,4 @@ const studentController = require('../controllers/studentController');
 
 router.use(methodOverride('_method'));
 
-router.get('/list', studentController.listStudents);
+router.get('/students', studentController.listStudents);
