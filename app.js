@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(methodOverride('_method'));
 
-const routes = require('./routes/index');
+const routes = require('./routes/studentRoutes');
 app.use('/', routes);
 
 app.use((req, res) => {
