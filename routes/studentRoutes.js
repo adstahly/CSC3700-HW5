@@ -6,3 +6,5 @@ const studentController = require('../controllers/studentController');
 router.use(methodOverride('_method'));
 
 router.get('/students', studentController.listStudents);
+
+module.exports = router;
