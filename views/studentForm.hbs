@@ -1,0 +1,42 @@
+<div class="mb-3">
+    <a href="/" class="text-decoration-none">&larr; Back to list</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="h4 mb-3">{{title}}</h1>
+
+        <form method="POST" action="{{action}}">
+            {{!-- If you prefer hidden input instead of query param: --}}
+            {{!-- <input type="hidden" name="_method" value="{{#ifEquals mode "edit"}}PUT{{else}}POST{{/ifEquals}}"> --}}
+
+            <div class="mb-3">
+                <label class="form-label">ID</label>
+                <input name="StudentID" class="form-control" value="{{student.StudentID}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input name="FirstName" class="form-control" value="{{student.FirstName}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input name="LastName" class="form-control" value="{{student.LastName}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Major</label>
+                <input name="Major" class="form-control" value="{{student.Major}}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">GPA</label>
+                <input name="GPA" class="form-control" value="{{student.GPA}}">
+            </div>
+
+            <button class="btn btn-primary">{{submitLabel}}</button>
+            <a href="/" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
