@@ -1,5 +1,4 @@
 const Student = require('../models/studentModel');
-const res = require("express/lib/response");
 
 exports.listStudents =  async (req, res, next) => {
     try {
@@ -11,20 +10,32 @@ exports.listStudents =  async (req, res, next) => {
     }
 };
 
+exports.showStudent = async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id) || id <= 0)
+            return res.status(400).send('Invalid Id');
+
+        const student = await Student.findById(id);
+        if (!student)
+            return res.status(404).send('Student not Found');
+        res.render('studentDetails', { title: `Student#${id}`, student });
+    } catch (err) {
+        next(err);
+    }
+}
+
 exports.newStudentForm = (req, res) => {
     res.render('studentForm', {
         title: 'Add Student',
-        mode: 'create',
-        student: {StudentID: '', FirstName: '', LastName: '', Major: '', GPA: ''},
+        student: {FirstName: '', LastName: '', Major: '', GPA: ''},
         action: '/students',
         submitLabel: 'Create'
     });
 }
 
 exports.createStudent = async (req, res, next) => {
-
     const studentData = scrub(req.body);
-
     const errors = validateStudent(studentData);
 
     if (Object.keys(errors).length > 0) {
@@ -38,9 +49,8 @@ exports.createStudent = async (req, res, next) => {
     }
     try {
         const gpaValue = studentData.GPA === '' ? null : parseFloat(studentData.GPA);
-
         const {FirstName, LastName, Major} = studentData;
-        const id = await Student.create({ FirstName, LastName, Major: Major || null, gpaValue });
+        const id = await Student.create({ FirstName, LastName, Major: Major || null, GPA: gpaValue });
         res.redirect(`/students/${id}`);
     } catch (err) {
         next(err);

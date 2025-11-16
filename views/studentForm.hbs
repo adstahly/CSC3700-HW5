@@ -10,31 +10,28 @@
             {{!-- If you prefer hidden input instead of query param: --}}
             {{!-- <input type="hidden" name="_method" value="{{#ifEquals mode "edit"}}PUT{{else}}POST{{/ifEquals}}"> --}}
 
-            <div class="mb-3">
-                <label class="form-label">ID</label>
-                <input name="StudentID" class="form-control" value="{{student.StudentID}}">
-            </div>
+
 
             <div class="mb-3">
                 <label class="form-label">First Name</label>
                 <input name="FirstName" class="form-control" value="{{student.FirstName}}">
             </div>
-
+            {{#if errors.firstNameError}}<p class="errors">{{errors.firstNameError}}</p>{{/if}}
             <div class="mb-3">
                 <label class="form-label">Last Name</label>
                 <input name="LastName" class="form-control" value="{{student.LastName}}">
             </div>
-
+            {{#if errors.lastNameError}}<p class="errors">{{errors.lastNameError}}</p>{{/if}}
             <div class="mb-3">
                 <label class="form-label">Major</label>
                 <input name="Major" class="form-control" value="{{student.Major}}">
             </div>
-
+            {{#if errors.majorError}}<p class="errors">{{errors.majorError}}</p>{{/if}}
             <div class="mb-3">
                 <label class="form-label">GPA</label>
                 <input name="GPA" class="form-control" value="{{student.GPA}}">
             </div>
-
+            {{#if errors.GPAError}}<p class="errors">{{errors.GPAError}}</p>{{/if}}
             <button class="btn btn-primary">{{submitLabel}}</button>
             <a href="/" class="btn btn-outline-secondary">Cancel</a>
         </form>
