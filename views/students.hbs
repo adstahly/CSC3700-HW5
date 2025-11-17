@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center justify-content-between mb-3">
     <h1 class="h3 m-0">All Students</h1>
-        <a href="/students/new" class="btn btn-primary">Add Student</a>
+        <a href="/students/new" class="btn btn-primary btn-pill">Add Student</a>
 </div>
 <div class="card shadow-sm">
     <div class="card-body p-0">
@@ -30,15 +30,15 @@
                         <td class="text-end">{{GPA}}</td>
                         <td class="text-end">{{FirstName}} {{LastName}}</td>
                         <td class="text-center">
-                            <a href="/students/{{StudentID}}" class="btn btn-sm btn-outline-secondary me-1">View</a>
-                            <a href="/students/{{StudentID}}/edit" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                            <a href="/students/{{StudentID}}" class="btn btn-sm btn-outline-secondary btn-pill me-1">View</a>
+                            <a href="/students/{{StudentID}}/edit" class="btn btn-sm btn-outline-primary btn-pill me-1">Edit</a>
                             <form
                                     method="POST"
                                     action="/students/{{StudentID}}?_method=DELETE"
                                     class="d-inline"
                                     onsubmit="return confirm('Delete student #{{StudentID}}?');"
                             >
-                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                <button class="btn btn-sm btn-outline-danger btn-pill">Delete</button>
                             </form>
                         </td>
                     </tr>

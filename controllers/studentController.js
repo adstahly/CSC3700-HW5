@@ -144,15 +144,15 @@ exports.deleteStudent = async (req, res, next) => {
 function validateStudent({FirstName, LastName, Major, GPA}) {
     const errors = {}
 
-    if (!FirstName) errors.firstNameError = "First Name is required";
-    if (!LastName) errors.lastNameError = "Last Name is required";
-    if (Major.length > 20) errors.majorError = "Major must be less than 20 characters";
+    if (!FirstName) errors.FirstName = "First Name is required";
+    if (!LastName) errors.LastName = "Last Name is required";
+    if (Major.length > 20) errors.Major = "Major must be less than 20 characters";
     if (GPA) {
         const gpaValue = parseFloat(GPA);
         if (isNaN(gpaValue)) {
-            errors.GPAError = "GPA must be a number";
+            errors.GPA = "GPA must be a number";
         } else if (gpaValue < 0.00 || gpaValue > 5.00) {
-            errors.GPAError = "GPA must be between 0.00 and 5.00";
+            errors.GPA = "GPA must be between 0.00 and 5.00";
         }
     }
     return errors;
