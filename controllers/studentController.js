@@ -2,6 +2,14 @@ const Student = require('../models/studentModel');
 
 exports.listStudents =  async (req, res, next) => {
     try {
+        const query = req.query.q
+        if (query) {
+            const students = await Student.findAll(query);
+            if (students == null || students.length === 0) {
+                res.render('students', { message: 'No students found' });
+            }
+            res.render('students', { title: 'All students', students});
+        }
         const students = await Student.findAll();
         res.render('students', { title: 'All students', students });
     }
@@ -111,6 +119,22 @@ exports.updateStudent = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.deleteStudent = async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id) || id <= 0)
+            return res.status(400).send('Invalid Id');
+
+        const deletedStudent = await Student.deleteById(id);
+        if (!deletedStudent)
+            return res.status(404).send('Student not Found');
+
+        res.redirect(`/`);
+    } catch (err) {
+        next(err);
+    }
+}
 
 function validateStudent({FirstName, LastName, Major, GPA}) {
     const errors = {}
