@@ -2,16 +2,24 @@ const Student = require('../models/studentModel');
 
 exports.listStudents =  async (req, res, next) => {
     try {
-        const query = req.query.q
-        if (query) {
-            const students = await Student.findAll(query);
-            if (students == null || students.length === 0) {
-                res.render('students', { message: 'No students found' });
-            }
-            res.render('students', { title: 'All students', students});
-        }
-        const students = await Student.findAll();
-        res.render('students', { title: 'All students', students });
+        const q = req.query.q
+        let students;
+
+        if (q)
+            students = await Student.findAll(q);
+        else
+            students = await Student.findAll();
+
+        const renderOptions = {
+            title: 'All Students',
+            students,
+            q: q || ''
+        };
+
+        if (students == null || students.length === 0)
+            renderOptions.message = 'No students found.';
+
+        res.render('students', renderOptions);
     }
     catch(err) {
         next(err);
@@ -31,7 +39,7 @@ exports.showStudent = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 exports.newStudentForm = (req, res) => {
     res.render('studentForm', {
@@ -40,7 +48,7 @@ exports.newStudentForm = (req, res) => {
         action: '/students',
         submitLabel: 'Create'
     });
-}
+};
 
 exports.createStudent = async (req, res, next) => {
     const studentData = scrub(req.body);
@@ -134,7 +142,7 @@ exports.deleteStudent = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 function validateStudent({FirstName, LastName, Major, GPA}) {
     const errors = {}
