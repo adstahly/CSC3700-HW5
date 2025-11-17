@@ -5,10 +5,7 @@ exports.listStudents =  async (req, res, next) => {
         const q = req.query.q
         let students;
 
-        if (q)
-            students = await Student.findAll(q);
-        else
-            students = await Student.findAll();
+        students = await Student.findAll({q});
 
         const renderOptions = {
             title: 'All Students',
@@ -86,7 +83,7 @@ exports.editStudentForm = async (req, res, next) => {
             title: `Edit Student #${id}`,
             student,
             action: `/students/${id}?_method=PUT`,
-            submitLabel: 'Update'
+            submitLabel: 'Save'
         });
     } catch (err) {
         next(err);
@@ -108,7 +105,7 @@ exports.updateStudent = async (req, res, next) => {
                 errors,
                 student: studentData,
                 action: `/students/${id}?_method=PUT`,
-                submitLabel: 'Update'
+                submitLabel: 'Save'
             })
         }
 

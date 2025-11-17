@@ -7,18 +7,13 @@
         <h1 class="h4 mb-3">{{title}}</h1>
 
         <form method="POST" action="{{action}}">
-            {{!-- If you prefer hidden input instead of query param: --}}
-            {{!-- <input type="hidden" name="_method" value="{{#ifEquals mode "edit"}}PUT{{else}}POST{{/ifEquals}}"> --}}
-
-
-
             <div class="mb-3">
-                <label class="form-label">First Name</label>
+                <label class="form-label">First Name *</label>
                 <input name="FirstName" class="form-control" value="{{student.FirstName}}">
             </div>
             {{#if errors.firstNameError}}<p class="errors">{{errors.firstNameError}}</p>{{/if}}
             <div class="mb-3">
-                <label class="form-label">Last Name</label>
+                <label class="form-label">Last Name *</label>
                 <input name="LastName" class="form-control" value="{{student.LastName}}">
             </div>
             {{#if errors.lastNameError}}<p class="errors">{{errors.lastNameError}}</p>{{/if}}

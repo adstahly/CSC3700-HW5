@@ -5,8 +5,7 @@
 <div class="card shadow-sm">
     <div class="card-body p-0">
         <div class="table-responsive">
-            {{#if message}}
-                <div>{{message}}</div>{{/if}}
+
             <table class="table table-striped table-hover align-middle m-0">
                 <thead class="table-light">
                 <tr>
@@ -41,6 +40,12 @@
                             >
                                 <button class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted fst-italic py-3">
+                            {{message}}
                         </td>
                     </tr>
                 {{/each}}
