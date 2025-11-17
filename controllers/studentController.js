@@ -57,6 +57,61 @@ exports.createStudent = async (req, res, next) => {
     }
 };
 
+exports.editStudentForm = async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id) || id <= 0)
+            return res.status(400).send('Invalid Id');
+        const student = await Student.findById(id);
+        if (!student)
+            return res.status(404).send('Student not Found');
+
+        res.render('studentForm', {
+            title: `Edit Student #${id}`,
+            student,
+            action: `/students/${id}?_method=PUT`,
+            submitLabel: 'Update'
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.updateStudent = async (req, res, next) => {
+    try {
+        const id = Number(req.params.id);
+        if (!Number.isInteger(id) || id <= 0)
+            return res.status(400).send('Invalid Id');
+
+        const studentData = scrub(req.body);
+        const errors = validateStudent(studentData);
+
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).render('studentForm', {
+                title: `Edit Student #${id}`,
+                errors,
+                student: studentData,
+                action: `/students/${id}?_method=PUT`,
+                submitLabel: 'Update'
+            })
+        }
+
+        const updatedStudent = await Student.updateById(id, {
+            StudentID: studentData.StudentID,
+            FirstName: studentData.FirstName,
+            LastName: studentData.LastName,
+            Major: studentData.Major,
+            GPA: studentData.GPA
+        });
+        if (!updatedStudent)
+            return res.status(404).send('Student not Found');
+
+        res.redirect(`/students/${id}`);
+    } catch (err) {
+        next(err);
+    }
+};
+
 function validateStudent({FirstName, LastName, Major, GPA}) {
     const errors = {}
 
