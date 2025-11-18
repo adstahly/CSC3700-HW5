@@ -64,9 +64,8 @@ exports.createStudent = async (req, res, next) => {
         })
     }
     try {
-        const gpaValue = studentData.GPA === '' ? null : parseFloat(studentData.GPA);
-        const {FirstName, LastName, Major} = studentData;
-        const id = await Student.create({FirstName, LastName, Major: Major || null, GPA: gpaValue});
+        const {FirstName, LastName, Major, GPA} = studentData;
+        const id = await Student.create({FirstName, LastName, Major, GPA});
         res.redirect(`/students/${id}`);
     } catch (err) {
         next(err);
@@ -116,13 +115,11 @@ exports.updateStudent = async (req, res, next) => {
                 submitLabel: 'Save'
             })
         }
-        const gpaValue = studentData.GPA === '' ? null : parseFloat(studentData.GPA);
         const updatedStudent = await Student.updateById(id, {
-            StudentID: studentData.StudentID,
             FirstName: studentData.FirstName,
             LastName: studentData.LastName,
-            Major: studentData.Major || null,
-            GPA: gpaValue
+            Major: studentData.Major,
+            GPA: studentData.GPA
         });
         if (!updatedStudent)
             return res.status(404).render('404', {
