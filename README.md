@@ -1,4 +1,4 @@
-Homework 5: Student Roster CRUD App
+Student Roster CRUD App
 
 This is a server-rendered web application for managing a student roster, built with Node.js, Express, Handlebars, and MySQL.
 
