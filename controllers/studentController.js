@@ -1,6 +1,6 @@
 const Student = require('../models/studentModel');
 
-exports.listStudents =  async (req, res, next) => {
+exports.listStudents = async (req, res, next) => {
     try {
         const q = req.query.q
         let students;
@@ -17,8 +17,7 @@ exports.listStudents =  async (req, res, next) => {
             renderOptions.message = 'No students found.';
 
         res.render('students', renderOptions);
-    }
-    catch(err) {
+    } catch (err) {
         next(err);
     }
 };
@@ -31,8 +30,12 @@ exports.showStudent = async (req, res, next) => {
 
         const student = await Student.findById(id);
         if (!student)
-            return res.status(404).send('Student not Found');
-        res.render('studentDetails', { title: `Student#${id}`, student });
+            return res.status(404).render('404', {
+                title: 'Student Not Found',
+                messageTitle: 'Student Not Found',
+                messageBody: `The student of ID ${id} does not exist.`,
+            });
+        res.render('studentDetails', {title: `Student#${id}`, student});
     } catch (err) {
         next(err);
     }
@@ -63,7 +66,7 @@ exports.createStudent = async (req, res, next) => {
     try {
         const gpaValue = studentData.GPA === '' ? null : parseFloat(studentData.GPA);
         const {FirstName, LastName, Major} = studentData;
-        const id = await Student.create({ FirstName, LastName, Major: Major || null, GPA: gpaValue });
+        const id = await Student.create({FirstName, LastName, Major: Major || null, GPA: gpaValue});
         res.redirect(`/students/${id}`);
     } catch (err) {
         next(err);
@@ -76,8 +79,13 @@ exports.editStudentForm = async (req, res, next) => {
         if (!Number.isInteger(id) || id <= 0)
             return res.status(400).send('Invalid Id');
         const student = await Student.findById(id);
+
         if (!student)
-            return res.status(404).send('Student not Found');
+            return res.status(404).render('404', {
+                title: 'Student Not Found',
+                messageTitle: 'Student Not Found',
+                messageBody: `The student of ID ${id} does not exist.`,
+            });
 
         res.render('studentForm', {
             title: `Edit Student #${id}`,
@@ -108,16 +116,20 @@ exports.updateStudent = async (req, res, next) => {
                 submitLabel: 'Save'
             })
         }
-
+        const gpaValue = studentData.GPA === '' ? null : parseFloat(studentData.GPA);
         const updatedStudent = await Student.updateById(id, {
             StudentID: studentData.StudentID,
             FirstName: studentData.FirstName,
             LastName: studentData.LastName,
-            Major: studentData.Major,
-            GPA: studentData.GPA
+            Major: studentData.Major || null,
+            GPA: gpaValue
         });
         if (!updatedStudent)
-            return res.status(404).send('Student not Found');
+            return res.status(404).render('404', {
+                title: 'Student Not Found',
+                messageTitle: 'Student Not Found',
+                messageBody: `The student of ID ${id} does not exist.`,
+            });
 
         res.redirect(`/students/${id}`);
     } catch (err) {
@@ -133,7 +145,11 @@ exports.deleteStudent = async (req, res, next) => {
 
         const deletedStudent = await Student.deleteById(id);
         if (!deletedStudent)
-            return res.status(404).send('Student not Found');
+            return res.status(404).render('404', {
+                title: 'Student Not Found',
+                messageTitle: 'Student Not Found',
+                messageBody: `The student of ID ${id} does not exist.`,
+            });
 
         res.redirect(`/`);
     } catch (err) {
